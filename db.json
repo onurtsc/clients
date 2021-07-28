@@ -1,0 +1,36 @@
+{
+  "usuarios": [
+    {
+      "email": "test@test.com",
+      "password": "11111111"
+    }
+  ],
+  "clientes": [
+    {
+      "nome": "Alex De Souza",
+      "cpf": "777.666.454-52",
+      "email": "ad.souza@cr.com.br",
+      "endereco": {
+        "cep": "32323-232",
+        "rua": "Av. 444",
+        "numero": "323",
+        "bairro": "Centro",
+        "cidade": "Curitiba"
+      },
+      "id": 2
+    },
+    {
+      "nome": "Onur Tasci",
+      "cpf": "112.233.445-56",
+      "email": "onurtasci@gmx.com",
+      "endereco": {
+        "cep": "71996-170",
+        "rua": "SHA Conjunto 6 Chácara 18G",
+        "numero": "34443",
+        "bairro": "Setor Habitacional Arniqueira (Águas Claras)",
+        "cidade": "Brasília"
+      },
+      "id": 3
+    }
+  ]
+}
