@@ -40,8 +40,8 @@ const PersonItem: React.FC<Props> = props => {
                 </View>
             </View>
 
-            <ButtonIcon style={{ position: 'absolute', right: 0, top: 5 }} name='edit' onPress={props.onPressEdit} />
-            <ButtonIcon style={{ position: 'absolute', right: 0, top: 35 }} name='delete' onPress={props.onPressDelete} />
+            <ButtonIcon style={{ position: 'absolute', right: 0, top: 5 }} name='edit' onPress={props.onPressEdit} loading={false} />
+            <ButtonIcon style={{ position: 'absolute', right: 0, top: 35 }} name='delete' onPress={props.onPressDelete} loading={false} />
         </View>
     )
 }
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: colors.warning,
+        backgroundColor: colors.primary,
     },
 })
 

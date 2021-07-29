@@ -6,6 +6,7 @@ import InputBox from '../components/UI/InputBox'
 import SafeScrollView from '../components/UI/SafeScrollView'
 import colors from '../constants/colors'
 import User from '../models/User'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AuthScreen: React.FC = (props: any) => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -16,7 +17,7 @@ const AuthScreen: React.FC = (props: any) => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    const [invalidInputs, setInvalidInputs] = useState<any[]>(['email', 'password'])
+    const [invalidInputs, setInvalidInputs] = useState<any[]>(['email', 'senha'])
 
 
     useEffect(() => {
@@ -36,30 +37,48 @@ const AuthScreen: React.FC = (props: any) => {
     }, [])
 
     const loginHandler = async () => {
+        let hasError = invalidInputs.length === 0 ? false : true
+        if (hasError) {
+            let errorText: string = ''
+            let emailError = invalidInputs.find(i => i === 'email')
+            let passwordError = invalidInputs.find(i => i === 'senha')
+            errorText = emailError ? passwordError ? 'Email é inválido. A senha não pode ter menos de 4 caracteres.' : 'Email é inválido' : 'A senha não pode ter menos de 4 caracteres.'
+            // if(emailError) errorText = errorText + 'Email é inválido'
+            // if(passwordError) errorText = errorText + emailError ? 'Email é inválido. Senha é inválida.' : 'Senha é inválida.'
+            setToastMessage(errorText)
+            setToastVisible(true)
+            return
+        }
         setLoading(true)
         try {
-            const res = await fetch("http://localhost:5000/clientes")
-            const users: User[] = await res.json()
-            const currentUser = users.find(u => u.email === email)
-            if(!currentUser) {
+            const res = await fetch(`http://localhost:5000/usuarios?q=${email}`)
+            const result = await res.json()
+            if (!result || result?.length < 1) {
                 setToastMessage('Este email não existe!')
                 setToastVisible(true)
                 setLoading(false)
                 return
             }
-            if(currentUser.password !== password) {
+            const user = result.find((u: User) => u.email === email)
+            if (!user) {
+                setToastMessage('Este email não existe!')
+                setToastVisible(true)
+                setLoading(false)
+                return
+            }
+            if (user.password != password) {
                 setToastMessage('A senha está errada!!')
                 setToastVisible(true)
                 setLoading(false)
                 return
             }
-            props.navigatio
+            await AsyncStorage.setItem('token', JSON.stringify(user))
             setLoading(false)
+            props.navigation.navigate('ClientsOverview')
         } catch (err) {
-            setToastMessage('Ocorreu um erro ao buscar os clientes')
+            setToastMessage('Ocorreu um erro ao conectar o servidor. Por favor, verifique sua conexão à internet')
             setToastVisible(true)
             setLoading(false)
-            console.log(err);
         }
     }
 
@@ -68,7 +87,10 @@ const AuthScreen: React.FC = (props: any) => {
         let errs = invalidInputs
         if (!emailRegex.test(val.toLowerCase())) {
             errs.push('email')
-            setInvalidInputs([...invalidInputs, 'email'])
+            const errorExist = invalidInputs.find(i => i === 'email')
+            if(!errorExist) {
+                setInvalidInputs([...invalidInputs, 'email'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'email'))
         }
@@ -77,9 +99,9 @@ const AuthScreen: React.FC = (props: any) => {
     const onChangepassword = (val: string) => {
         setPassword(val)
         if (val.length < 4) {
-            setInvalidInputs([...invalidInputs, 'password'])
+            setInvalidInputs([...invalidInputs, 'senha'])
         } else {
-            setInvalidInputs(invalidInputs.filter(inv => inv !== 'password'))
+            setInvalidInputs(invalidInputs.filter(inv => inv !== 'senha'))
         }
     }
 
@@ -88,11 +110,11 @@ const AuthScreen: React.FC = (props: any) => {
         hideToast: (val: boolean) => setToastVisible(val),
         message: toastMessage,
         messagePosition: 'top',
-        type: 'warning'
+        type: 'danger'
     }
 
     return (
-        <SafeScrollView style={{justifyContent: 'center'}} toastOptions={toastOptions}>
+        <SafeScrollView style={{ justifyContent: 'center' }} contentContainerStyle={{flex: 1}} toastOptions={toastOptions}>
             <View style={styles.container} >
                 <InputBox
                     style={styles.input}
@@ -109,6 +131,7 @@ const AuthScreen: React.FC = (props: any) => {
                     secureTextEntry={false}
                     keyboardType='email-address'
                     maxLength={50}
+                    ref={null}
                 />
                 <InputBox
                     style={styles.input}
@@ -116,15 +139,16 @@ const AuthScreen: React.FC = (props: any) => {
                     value={password}
                     onChangeText={onChangepassword}
                     color={Colors.sgray}
-                    label='Password'
+                    label='Senha'
                     labelColor={Colors.secondary}
-                    placeholder='Password'
-                    error={invalidInputs.find(inv => inv === 'password')}
+                    placeholder='Senha'
+                    error={invalidInputs.find(inv => inv === 'senha')}
                     errorMessage={errorMessage}
                     autoCapitalize='words'
                     secureTextEntry={true}
                     keyboardType='default'
                     maxLength={50}
+                    ref={null}
                 />
                 <ButtonBox style={{ marginBottom: 50 }} title='Login' onPress={loginHandler} color={colors.success} hide={false} loading={loading} />
             </View>
@@ -146,7 +170,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 20,
 
-        backgroundColor: colors.backgroundColor,
+        backgroundColor: colors.ivory,
         shadowColor: 'black',
         shadowOpacity: 0.26,
         shadowOffset: { width: 0, height: 2 },

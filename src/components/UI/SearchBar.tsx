@@ -21,7 +21,6 @@ const SearchBar: React.FC<Props> = props => {
         try {
             const res = await fetch(`http://localhost:5000/clientes?q=${value}`)
             const customers = await res.json()
-            console.log('CUSTTT: ', customers)
             props.setFixedData(customers)
             props.showLoading(false)
         } catch (err) {

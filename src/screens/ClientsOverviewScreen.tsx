@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, View, Text, Alert, ActivityIndicator } from 'react-native'
 import PersonItem from '../components/items/PersonItem'
@@ -21,8 +22,8 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     useEffect(() => {
         props.navigation.setOptions({
             headerTitle: 'Clients',
-            // headerRight: () => <ButtonIcon name='menu' onPress={()=>{ props.navigation.toggleDrawer()}} />,
-            headerRight: () => <ButtonIcon style={{}} name='add' onPress={() => { props.navigation.navigate('EditClient', { person: null }) }} />,
+            headerLeft: () => <ButtonIcon style={{}} name='logout' onPress={logoutHandler} loading={false} />,
+            headerRight: () => <ButtonIcon style={{}} name='add' onPress={() => { props.navigation.navigate('EditClient', { person: null }) }} loading={false} />,
         })
     }, [])
 
@@ -82,7 +83,27 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
         }
     }
 
-    const showAlert = (id: number) => {
+    const logoutHandler = () => {
+        Alert.alert(
+            'Você quer sair??',
+            '',
+            [
+                { text: 'Cancelar', style: 'default', onPress: () => {} },
+                { text: 'Sair', style: 'destructive', onPress: signout }
+            ]
+        );
+    }
+
+    const signout = async () => {
+        try {
+            await AsyncStorage.removeItem('token');
+            props.navigation.navigate('Auth')
+        } catch (err) {
+            console.log('logoutHandler Error: ', err);
+        }
+    }
+
+    const showDeleteAlert = (id: number) => {
         Alert.alert(
             'Aviso!',
             'Tem certeza de que deseja excluir este cliente??', [{
@@ -91,7 +112,8 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
                 style: 'cancel'
             }, {
                 text: 'Excluir',
-                onPress: deleteClientHandler.bind(this, id)
+                onPress: deleteClientHandler.bind(this, id),
+                style: 'destructive'
             },], {
             cancelable: false
         }
@@ -108,7 +130,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     }
 
     return (
-        <SafeScrollView style={{}} toastOptions={toastOptions}>
+        <SafeScrollView style={{}} contentContainerStyle={{}} toastOptions={toastOptions}>
             <SearchBar
                 data={clients}
                 setFixedData={(val) => { setSearchedItems(val) }}
@@ -118,7 +140,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
             {!loading && !hasError && (!searchedItems || searchedItems?.length <= 0) && <Text style={{ textAlign: 'center', marginTop: 20 }}>Não há clientes cadastrados. Você pode criar um novo cliente com o ícone de adição acima</Text>}
             {!loading && hasError && <Text style={{ textAlign: 'center', marginTop: 20 }}>Ocorreu um erro com o servidor!</Text>}
             {!loading && searchedItems && searchedItems?.length > 0 && searchedItems.map((item: any, index: any) => (
-                <PersonItem key={index} person={item} onPressEdit={() => props.navigation.navigate('EditClient', { person: item })} onPressDelete={showAlert.bind(this, item.id)} />
+                <PersonItem key={index} person={item} onPressEdit={() => props.navigation.navigate('EditClient', { person: item })} onPressDelete={showDeleteAlert.bind(this, item.id)} />
             ))}
         </SafeScrollView>
     )

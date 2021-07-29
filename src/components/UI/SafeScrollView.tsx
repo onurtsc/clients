@@ -5,6 +5,7 @@ import ToastMessage from './ToastMessage'
 export type Props = {
     toastOptions: any,
     style: object | null
+    contentContainerStyle: object | null
 };
 
 const SafeScrollView: React.FC<Props> = props => {
@@ -38,12 +39,11 @@ const SafeScrollView: React.FC<Props> = props => {
             {props.toastOptions && <ToastMessage {...props} />}
             <ScrollView
                 style={styles.scrollStyle}
-                contentContainerStyle={{ ...styles.contentContainerStyle }}
+                contentContainerStyle={{ ...styles.contentContainerStyle, ...props.contentContainerStyle }}
                 keyboardShouldPersistTaps="handled"
                 ref={scrollRef}
                 showsVerticalScrollIndicator={false}
             >
-
                 <KeyboardAvoidingView style={{...styles.view, ...props.style}} >
                     {props.children}
                 </KeyboardAvoidingView>
@@ -58,11 +58,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollStyle: {
-        paddingVertical: 20,
         flex: 1,
-        height: "100%"
+        paddingVertical: 20,
     },
-    contentContainerStyle: {},
+    contentContainerStyle: {
+        // flex: 1,
+    },
     view: { 
         flex: 1,
         paddingHorizontal: 10,

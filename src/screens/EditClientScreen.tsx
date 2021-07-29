@@ -41,9 +41,9 @@ const EditClientScreen: React.FC = (props: any) => {
     useEffect(() => {
         props.navigation.setOptions({
             headerTitle: person ? 'Editar Cliente' : 'Adicionar Cliente',
-            headerLeft: () => <ButtonIcon style={{}} name='back' onPress={cancelHandler} />
+            headerLeft: () => <ButtonIcon style={{}} name='back' onPress={cancelHandler} loading={false} />,
         })
-    }, [])
+    }, [personId, nome, cpf, email, cep, rua, numero, bairro, cidade, invalidInputs, person, loading])
 
     useFocusEffect(
         useCallback(() => {
@@ -242,7 +242,7 @@ const EditClientScreen: React.FC = (props: any) => {
     }
 
     return (
-        <SafeScrollView style={null} toastOptions={toastOptions}>
+        <SafeScrollView style={null} contentContainerStyle={{}} toastOptions={toastOptions}>
             <Text style={styles.title}>INFORMAÇÃO PESSOAL</Text>
             <View style={styles.inputContainer} >
                 <InputBox
@@ -385,7 +385,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     ref={null}
                 />
             </View>
-            <ButtonBox style={{ marginBottom: 50 }} title='Salvar' onPress={saveClientHandler} color={colors.success} hide={false} loading={loading} />
+            <ButtonBox style={{ marginBottom: 50 }} title='Salvar' onPress={saveClientHandler} color={colors.primary} hide={false} loading={loading} />
         </SafeScrollView>
     )
 }

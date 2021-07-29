@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, View, Image } from 'react-native'
+import { View, Image } from 'react-native'
 
 export type Props = {
     name: string;
@@ -9,6 +9,8 @@ const CustomIcon: React.FC<Props> = (props) => {
 
     const width = 20
 
+    const iconObject = icons.find(ic => ic.name === props.name)
+
     return (
         <View style={{ paddingHorizontal: 10 }} >
             <Image
@@ -17,19 +19,19 @@ const CustomIcon: React.FC<Props> = (props) => {
                     height: width,
                     resizeMode: 'cover',
                 }}
-                source={icons[props.name]}
+                source={iconObject?.link}
             />
         </View>
     )
 }
 
-const icons = {
-    menu: require('../../assets/icons/menu.png'),
-    group: require('../../assets/icons/group.png'),
-    add: require('../../assets/icons/add.png'),
-    logout: require('../../assets/icons/logout.png'),
-    search: require('../../assets/icons/search.png'),
+const icons = [
+    { name: 'menu', link: require('../../assets/icons/menu.png')},
+    { name: 'group', link: require('../../assets/icons/group.png')},
+    { name: 'add', link: require('../../assets/icons/add.png')},
+    { name: 'logout', link: require('../../assets/icons/logout.png')},
+    { name: 'search', link: require('../../assets/icons/search.png')},
 
-}
+]
 
 export default CustomIcon

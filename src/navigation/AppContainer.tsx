@@ -1,8 +1,6 @@
 import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
-import DrawerNavigator from './DrawerNavigator'
 import { ClientsNavigator } from './ClientsNavigator';
-import { AuthNavigator } from './AuthNavigator';
 import colors from '../constants/colors';
 
 const AppContainer: React.FC = () => {
@@ -17,8 +15,7 @@ const AppContainer: React.FC = () => {
 
     return (
         <NavigationContainer theme={theme}>
-            {/* <AuthNavigator/> */}
-            <ClientsNavigator/>
+            <ClientsNavigator />
         </NavigationContainer>
     )
 };
