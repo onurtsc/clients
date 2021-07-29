@@ -10,12 +10,16 @@ import Client from '../models/Client'
 
 const ClientsOverviewScreen: React.FC = (props: any) => {
     const [loading, setLoading] = useState<boolean>(false)
+    const [searchLoading, setSearchLoading] = useState<boolean>(false)
     const [toastVisible, setToastVisible] = useState<boolean>(false)
     const [toastMessage, setToastMessage] = useState<string>('')
     const [toastType, setToastType] = useState<string>('default')
     const [searchedItems, setSearchedItems] = useState<Client[]>([])
     const [clients, setClients] = useState<Client[]>([])
     const [hasError, setHasError] = useState<boolean>(false)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const itemsPerPage = 5
 
     const success = props.route.params?.success
 
@@ -36,20 +40,20 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     }, [success])
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', loadClients)
+        const unsubscribe = props.navigation.addListener('focus', loadClients.bind(this, 1))
         return () => {
             unsubscribe()
         };
     }, []);
 
-    const loadClients = useCallback(async () => {
+    const loadClients = useCallback(async (pageNumber: number) => {
         setLoading(true)
         setHasError(false)
         try {
             const res = await fetch("http://localhost:5000/clientes")
             const customers = await res.json()
             setClients(customers)
-            setSearchedItems(customers)
+            setSearchedItems(customers.slice(0, pageNumber * itemsPerPage))
             setLoading(false)
         } catch (err) {
             setToastType('warning')
@@ -88,7 +92,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
             'Você quer sair??',
             '',
             [
-                { text: 'Cancelar', style: 'default', onPress: () => {} },
+                { text: 'Cancelar', style: 'default', onPress: () => { } },
                 { text: 'Sair', style: 'destructive', onPress: signout }
             ]
         );
@@ -129,19 +133,31 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
         type: toastType
     }
 
+    const isCloseToBottom: (lm: any) => boolean = ({ layoutMeasurement, contentOffset, contentSize }) => layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+
     return (
-        <SafeScrollView style={{}} contentContainerStyle={{}} toastOptions={toastOptions}>
+        <SafeScrollView
+            style={{ paddingBottom: 50 }}
+            contentContainerStyle={{ paddingBottom: 50 }}
+            toastOptions={toastOptions}
+            onScroll={({ nativeEvent }) => {
+                if (isCloseToBottom(nativeEvent) && currentPage * itemsPerPage <= searchedItems.length) {
+                    setCurrentPage(currentPage + 1)
+                    loadClients(currentPage + 1)
+                }
+            }}
+        >
             <SearchBar
                 data={clients}
                 setFixedData={(val) => { setSearchedItems(val) }}
-                showLoading={(val) => setLoading(val)}
+                showLoading={(val) => setSearchLoading(val)}
             />
-            {loading && <ActivityIndicator style={{marginTop: 20}} size='large' color={Colors.primary} />}
-            {!loading && !hasError && (!searchedItems || searchedItems?.length <= 0) && <Text style={{ textAlign: 'center', marginTop: 20 }}>Não há clientes cadastrados. Você pode criar um novo cliente com o ícone de adição acima</Text>}
+            {searchLoading && <ActivityIndicator style={{ marginTop: 20 }} size='large' color={Colors.primary} />}
             {!loading && hasError && <Text style={{ textAlign: 'center', marginTop: 20 }}>Ocorreu um erro com o servidor!</Text>}
-            {!loading && searchedItems && searchedItems?.length > 0 && searchedItems.map((item: any, index: any) => (
+            {!searchLoading && searchedItems && searchedItems.map((item: any, index: any) => (
                 <PersonItem key={index} person={item} onPressEdit={() => props.navigation.navigate('EditClient', { person: item })} onPressDelete={showDeleteAlert.bind(this, item.id)} />
             ))}
+            {loading && <ActivityIndicator style={{ marginTop: 20 }} size='large' color={Colors.primary} />}
         </SafeScrollView>
     )
 }

@@ -3,9 +3,10 @@ import { ScrollView, Keyboard, StyleSheet, View, KeyboardAvoidingView, Platform 
 import ToastMessage from './ToastMessage'
 
 export type Props = {
-    toastOptions: any,
+    toastOptions: any
     style: object | null
     contentContainerStyle: object | null
+    onScroll: (element: any) => void
 };
 
 const SafeScrollView: React.FC<Props> = props => {
@@ -43,6 +44,8 @@ const SafeScrollView: React.FC<Props> = props => {
                 keyboardShouldPersistTaps="handled"
                 ref={scrollRef}
                 showsVerticalScrollIndicator={false}
+                onScroll={props.onScroll}
+                scrollEventThrottle={400}
             >
                 <KeyboardAvoidingView style={{...styles.view, ...props.style}} >
                     {props.children}

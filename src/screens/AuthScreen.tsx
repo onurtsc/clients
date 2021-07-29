@@ -88,7 +88,7 @@ const AuthScreen: React.FC = (props: any) => {
         if (!emailRegex.test(val.toLowerCase())) {
             errs.push('email')
             const errorExist = invalidInputs.find(i => i === 'email')
-            if(!errorExist) {
+            if (!errorExist) {
                 setInvalidInputs([...invalidInputs, 'email'])
             }
         } else {
@@ -114,7 +114,12 @@ const AuthScreen: React.FC = (props: any) => {
     }
 
     return (
-        <SafeScrollView style={{ justifyContent: 'center' }} contentContainerStyle={{flex: 1}} toastOptions={toastOptions}>
+        <SafeScrollView
+            style={{ justifyContent: 'center' }}
+            contentContainerStyle={{ flex: 1 }}
+            toastOptions={toastOptions}
+            onScroll={() => {}}
+        >
             <View style={styles.container} >
                 <InputBox
                     style={styles.input}

@@ -3,10 +3,15 @@
     {
       "email": "test@test.com",
       "password": "11111111"
+    },
+    {
+      "email":"teste@emaill.com.br",
+      "password": "123456"
     }
   ],
   "clientes": [
     {
+      "id": 2,
       "nome": "Alex De Souza",
       "cpf": "777.666.454-52",
       "email": "ad.souza@cr.com.br",
@@ -16,8 +21,7 @@
         "numero": "323",
         "bairro": "Centro",
         "cidade": "Curitiba"
-      },
-      "id": 2
+      }
     },
     {
       "id": 3,
@@ -56,6 +60,97 @@
         "numero": "43343",
         "bairro": "Centro",
         "cidade": "Belo Horizonte"
+      }
+    },
+    {
+      "id": 6,
+      "nome": "Jeremmy Harrison",
+      "cpf": "773.773.764-77",
+      "email": "jharrison@yandex.com",
+      "endereco": {
+        "cep": "30160-030",
+        "rua": "Rua Espírito Santo",
+        "numero": "43343",
+        "bairro": "Centro",
+        "cidade": "Sao Paulo"
+      }
+    },
+    {
+      "id": 7,
+      "nome": "Paulo Hugo",
+      "cpf": "111.433.773-77",
+      "email": "paulohugo@gmail.com",
+      "endereco": {
+        "cep": "30160-030",
+        "rua": "Rua Espírito Santo",
+        "numero": "433",
+        "bairro": "Centro",
+        "cidade": "Garanhuns"
+      }
+    },
+    {
+      "id": 8,
+      "nome": "Victor Alves Souza",
+      "cpf": "899.000.773-77",
+      "email": "victor_alve_hugo@gmx.com",
+      "endereco": {
+        "cep": "09887-076",
+        "rua": "Rua Espírito Santo",
+        "numero": "908",
+        "bairro": "Centro",
+        "cidade": "Jundiai"
+      }
+    },
+    {
+      "id": 9,
+      "nome": "Rafaela Rocha",
+      "cpf": "890.222.654-66",
+      "email": "rafaela@rocha.com",
+      "endereco": {
+        "cep": "55555-454",
+        "rua": "Rua Espírito Santo",
+        "numero": "43343",
+        "bairro": "Centro",
+        "cidade": "Belo Horizonte"
+      }
+    },
+    {
+      "id": 10,
+      "nome": "David Alberto",
+      "cpf": "543.773.666-88",
+      "email": "alberto_david@gmail.com",
+      "endereco": {
+        "cep": "30160-030",
+        "rua": "Rua Espírito Santo",
+        "numero": "567",
+        "bairro": "Centro",
+        "cidade": "Goiana"
+      }
+    },
+    {
+      "id": 11,
+      "nome": "Marry Stobe",
+      "cpf": "890.232.111-44",
+      "email": "mary-stobe@mail.com",
+      "endereco": {
+        "cep": "65444-322",
+        "rua": "Rua Espírito Santo",
+        "numero": "789",
+        "bairro": "Centro",
+        "cidade": "Salvador"
+      }
+    },
+    {
+      "id": 12,
+      "nome": "Luiz Gustavo",
+      "cpf": "652.777.111-90",
+      "email": "luiz-gustavo@fb.com",
+      "endereco": {
+        "cep": "65444-322",
+        "rua": "Rua Espírito Santo",
+        "numero": "678",
+        "bairro": "Centro",
+        "cidade": "Sao Paulo"
       }
     }
   ]

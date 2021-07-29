@@ -139,7 +139,7 @@ const EditClientScreen: React.FC = (props: any) => {
             try {
                 const res = await fetch(`https://viacep.com.br/ws/${val}/json/`)
                 const result = await res.json()
-                if(result.erro) {
+                if (result.erro) {
                     setToastMessage('Não há informações de endereço relacionadas a este CEP!')
                     setToastType('default')
                     setToastVisible(true)
@@ -242,7 +242,12 @@ const EditClientScreen: React.FC = (props: any) => {
     }
 
     return (
-        <SafeScrollView style={null} contentContainerStyle={{}} toastOptions={toastOptions}>
+        <SafeScrollView
+            style={null}
+            contentContainerStyle={{}}
+            toastOptions={toastOptions}
+            onScroll={() => {}}
+        >
             <Text style={styles.title}>INFORMAÇÃO PESSOAL</Text>
             <View style={styles.inputContainer} >
                 <InputBox

@@ -3,7 +3,6 @@ import { StyleSheet, View, Text } from 'react-native'
 import colors from '../../constants/colors';
 import ButtonIcon from '../UI/ButtonIcon';
 
-
 export type Props = {
     person: any;
     onPressEdit: () => void
