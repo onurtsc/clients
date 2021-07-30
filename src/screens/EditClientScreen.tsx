@@ -39,7 +39,7 @@ const EditClientScreen: React.FC = (props: any) => {
     const refNumber = useRef<RefObject>(null)
 
     useEffect(() => {
-        props.navigation.setOptions({
+        props.navigation?.setOptions({
             headerTitle: person ? 'Editar Cliente' : 'Adicionar Cliente',
             headerLeft: () => <ButtonIcon style={{}} name='back' onPress={cancelHandler} loading={false} />,
         })

@@ -21,7 +21,7 @@ const AuthScreen: React.FC = (props: any) => {
 
 
     useEffect(() => {
-        props.navigation.setOptions({
+        props.navigation?.setOptions({
             headerTitle: '',
             headerTitleStyle: {},
             headerTintColor: colors.tertiary,

@@ -28,7 +28,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     const headerHeight = useHeaderHeight()
 
     useEffect(() => {
-        props.navigation.setOptions({
+        props.navigation?.setOptions({
             headerTitle: () => <Logo size={16}/>,
             headerLeft: () => <ButtonIcon style={{}} name='logout' onPress={logoutHandler} loading={false} />,
             headerRight: () => <ButtonIcon style={{}} name='add' onPress={() => { props.navigation.navigate('EditClient', { person: null }) }} loading={false} />,
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginTop: -10,
         marginBottom: 30,
     }
 })

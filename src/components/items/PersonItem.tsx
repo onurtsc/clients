@@ -39,8 +39,8 @@ const PersonItem: React.FC<Props> = props => {
                 </View>
             </View>
 
-            <ButtonIcon style={{ position: 'absolute', right: 0, top: 5 }} name='edit' onPress={props.onPressEdit} loading={false} />
-            <ButtonIcon style={{ position: 'absolute', right: 0, top: 35 }} name='delete' onPress={props.onPressDelete} loading={false} />
+            <ButtonIcon style={{ position: 'absolute', right: 0, top: 10 }} name='edit' onPress={props.onPressEdit} loading={false} />
+            <ButtonIcon style={{ position: 'absolute', right: 0, top: 40 }} name='delete' onPress={props.onPressDelete} loading={false} />
         </View>
     )
 }
