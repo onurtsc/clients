@@ -37,14 +37,11 @@ const ButtonIcon: React.FC<Props> = (props) => {
 }
 
 const icons = [
-    { name: 'menu', link: require('../../assets/icons/menu.png') },
-    { name: 'group', link: require('../../assets/icons/group.png') },
     { name: 'add', link: require('../../assets/icons/add.png'), },
     { name: 'edit', link: require('../../assets/icons/edit.png') },
     { name: 'delete', link: require('../../assets/icons/delete.png') },
     { name: 'back', link: require('../../assets/icons/back.png') },
     { name: 'logout', link: require('../../assets/icons/logout.png') },
-    { name: 'check', link: require('../../assets/icons/check.png') },
     { name: 'sort', link: require('../../assets/icons/sort.png') },
 
 ]

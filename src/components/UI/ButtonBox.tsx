@@ -24,7 +24,7 @@ const ButtonBox: React.FC<Props> = props => {
     if(props.loading) {
         return (
             <View style={{ ...styles.container, ...props.style }} >
-                <ActivityIndicator color={props.color ? props.color : Colors.accent} size='small' />
+                <ActivityIndicator color={props.color ? props.color : Colors.secondary} size='small' />
             </View>
         )
     }
@@ -32,7 +32,7 @@ const ButtonBox: React.FC<Props> = props => {
     return (
         <TouchableOpacity
             onPress={props.onPress}
-            style={{ ...styles.container, ...props.style, backgroundColor: props.color ? props.color : Colors.accent, }}
+            style={{ ...styles.container, ...props.style, backgroundColor: props.color ? props.color : Colors.secondary, }}
         >
             <Text
                 style={{

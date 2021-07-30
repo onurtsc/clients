@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10,
         borderBottomColor: '#ccc',
-        marginVertical: 15,
+        marginBottom: 10,
         borderRadius: 5,
 
         backgroundColor: 'white',

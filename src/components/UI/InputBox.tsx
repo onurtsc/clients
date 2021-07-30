@@ -28,7 +28,7 @@ const InputBox: React.FC<Props> = React.forwardRef<TextInput, Props>((props, ref
     const errorMessage = props.errorMessage ? props.errorMessage : 'Por favor insira um texto válido!'
     const placeholder = editing ? '' : (watchError && props.error ? errorMessage : props.placeholder)
 
-    const labelColor = props.labelColor ? props.labelColor : Colors.primary
+    const labelColor = props.labelColor ? props.labelColor : Colors.tertiary
 
     if (props.hide) {
         return <View />
@@ -50,10 +50,10 @@ const InputBox: React.FC<Props> = React.forwardRef<TextInput, Props>((props, ref
                     style={{
                         ...styles.input,
                         borderWidth: editing ? 1.5 : 1,
-                        borderColor: editing ? !props.error ? Colors.success : Colors.accent : (watchError && props.error) ? Colors.danger : '#ccc',
+                        borderColor: editing ? !props.error ? Colors.success : Colors.secondary : (watchError && props.error) ? Colors.danger : '#ccc',
                         color: Colors.sgray,
                     }}
-                    placeholderTextColor={watchError && props.error ? Colors.danger : props.color}
+                    placeholderTextColor={watchError && props.error ? Colors.danger : '#ccc'}
                     onChangeText={(val: string) => { props.onChangeText(val) }}
                     placeholder={placeholder}
                     onTouchStart={() => setEditing(true)}

@@ -16,7 +16,6 @@ const SafeScrollView: React.FC<Props> = props => {
 
     const keyboarOpenHandler = (e: any) => {
         setKeyboardHeight(e.endCoordinates.height)
-        console.log(e.endCoordinates.height)
     }
     const keyboarCloseHandler = (e: any) => {
         setKeyboardHeight(0)

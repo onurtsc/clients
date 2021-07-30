@@ -1,6 +1,7 @@
 export default {
-    primary: '#4ca3dd',
-    accent: '#FFC107',
+    primary: 'rgb(56,60,73)',
+    secondary: '#FFC107',
+    tertiary: '#4ca3dd',
     cream: '#f5f5dc',
     ivory: '#fffff0',
     success: '#5ac18e',

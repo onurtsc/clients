@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { StyleSheet, BackHandler, Alert, View, Text } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native';
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import ButtonBox from '../components/UI/ButtonBox'
 import InputBox from '../components/UI/InputBox'
 import SafeScrollView from '../components/UI/SafeScrollView'
@@ -58,7 +57,7 @@ const EditClientScreen: React.FC = (props: any) => {
             'Suas alterações não serão salvas!',
             [
                 { text: 'Volte', onPress: () => props.navigation.navigate('ClientsOverview', { success: false }), style: 'destructive' },
-                { text: 'Fique', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
+                { text: 'Fique', onPress: () => {}, style: 'cancel' }
             ],
             { cancelable: true }
         );
@@ -260,10 +259,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={nome}
                     onChangeText={onChangeName}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='Nome'
-                    labelColor={Colors.secondary}
-                    placeholder='Nome'
+                    labelColor={colors.tertiary}
+                    placeholder='Nome Sobrenome'
                     error={invalidInputs.find(inv => inv === 'nome')}
                     errorMessage={errorMessage}
                     autoCapitalize='words'
@@ -278,10 +277,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={cpf}
                     onChangeText={onChangeCPF}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='CPF'
-                    labelColor={Colors.secondary}
-                    placeholder='CPF'
+                    labelColor={colors.tertiary}
+                    placeholder='000.000.000-00'
                     error={invalidInputs.find(inv => inv === 'CPF')}
                     errorMessage={errorMessage}
                     autoCapitalize='none'
@@ -296,10 +295,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={email}
                     onChangeText={onChangeEmail}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='E-Mail'
-                    labelColor={Colors.secondary}
-                    placeholder='E-Mail'
+                    labelColor={colors.tertiary}
+                    placeholder='examplo@examplo.com'
                     error={invalidInputs.find(inv => inv === 'email')}
                     errorMessage={errorMessage}
                     autoCapitalize='none'
@@ -317,10 +316,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={cep}
                     onChangeText={onChangeCep}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='CEP'
-                    labelColor={Colors.secondary}
-                    placeholder='CEP'
+                    labelColor={colors.tertiary}
+                    placeholder='00000-000'
                     error={invalidInputs.find(inv => inv === 'CEP')}
                     errorMessage={errorMessage}
                     autoCapitalize='none'
@@ -335,10 +334,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={rua}
                     onChangeText={onChangerua}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='Rua'
-                    labelColor={Colors.secondary}
-                    placeholder='Rua'
+                    labelColor={colors.tertiary}
+                    placeholder='Entre na rua por favor'
                     error={invalidInputs.find(inv => inv === 'rua')}
                     errorMessage={errorMessage}
                     autoCapitalize='words'
@@ -353,10 +352,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={numero}
                     onChangeText={onChangeNumber}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='Número'
-                    labelColor={Colors.secondary}
-                    placeholder='Número'
+                    labelColor={colors.tertiary}
+                    placeholder='Digite o número por favor'
                     error={invalidInputs.find(inv => inv === 'numero')}
                     errorMessage={errorMessage}
                     autoCapitalize='none'
@@ -371,10 +370,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={bairro}
                     onChangeText={onChangeBairro}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='Bairro'
-                    labelColor={Colors.secondary}
-                    placeholder='Bairro'
+                    labelColor={colors.tertiary}
+                    placeholder='Entre no bairro por favor'
                     error={invalidInputs.find(inv => inv === 'bairro')}
                     errorMessage={errorMessage}
                     autoCapitalize='words'
@@ -389,10 +388,10 @@ const EditClientScreen: React.FC = (props: any) => {
                     hide={false}
                     value={cidade}
                     onChangeText={onChangecidade}
-                    color={Colors.sgray}
+                    color={colors.sgray}
                     label='Cidade'
-                    labelColor={Colors.secondary}
-                    placeholder='Cidade'
+                    labelColor={colors.tertiary}
+                    placeholder='Entre na cidade por favor'
                     error={invalidInputs.find(inv => inv === 'cidade')}
                     errorMessage={errorMessage}
                     autoCapitalize='words'

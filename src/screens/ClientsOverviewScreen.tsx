@@ -6,9 +6,10 @@ import PersonItem from '../components/items/PersonItem'
 import ButtonIcon from '../components/UI/ButtonIcon'
 import SafeScrollView from '../components/UI/SafeScrollView'
 import SearchBar from '../components/UI/SearchBar'
-import SortComponent from '../components/UI/SortComponent'
+import SortComponent from '../components/items/SortComponent'
 import Colors from '../constants/colors'
 import Client from '../models/Client'
+import Logo from '../components/items/Logo'
 
 const ClientsOverviewScreen: React.FC = (props: any) => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -28,7 +29,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
 
     useEffect(() => {
         props.navigation.setOptions({
-            headerTitle: 'Clients',
+            headerTitle: () => <Logo size={16}/>,
             headerLeft: () => <ButtonIcon style={{}} name='logout' onPress={logoutHandler} loading={false} />,
             headerRight: () => <ButtonIcon style={{}} name='add' onPress={() => { props.navigation.navigate('EditClient', { person: null }) }} loading={false} />,
         })
@@ -116,7 +117,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
             'Aviso!',
             'Tem certeza de que deseja excluir este cliente??', [{
                 text: 'Cancelar',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel'
             }, {
                 text: 'Excluir',
@@ -173,7 +174,8 @@ const styles = StyleSheet.create({
     filterContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: 30,
     }
 })
 

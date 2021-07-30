@@ -6,6 +6,7 @@ import SafeScrollView from '../components/UI/SafeScrollView'
 import colors from '../constants/colors'
 import User from '../models/User'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Logo from '../components/items/Logo'
 
 const AuthScreen: React.FC = (props: any) => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -21,9 +22,9 @@ const AuthScreen: React.FC = (props: any) => {
 
     useEffect(() => {
         props.navigation.setOptions({
-            headerTitle: 'Login',
+            headerTitle: '',
             headerTitleStyle: {},
-            headerTintColor: colors.primary,
+            headerTintColor: colors.tertiary,
             headerLeft: null,
             headerStyle: {
                 backgroundColor: colors.backgroundColor,
@@ -113,11 +114,12 @@ const AuthScreen: React.FC = (props: any) => {
 
     return (
         <SafeScrollView
-            style={{ justifyContent: 'center' }}
+            style={{ justifyContent: 'space-around' }}
             contentContainerStyle={{ flex: 1 }}
             toastOptions={toastOptions}
             onScroll={() => {}}
         >
+            <Logo size={60} />
             <View style={styles.container} >
                 <InputBox
                     style={styles.input}
@@ -126,8 +128,8 @@ const AuthScreen: React.FC = (props: any) => {
                     onChangeText={onChangeEmail}
                     color={'#ccc'}
                     label='E-Mail'
-                    labelColor={colors.primary}
-                    placeholder='E-Mail'
+                    labelColor={colors.tertiary}
+                    placeholder='exemplo@exemplo.com'
                     error={invalidInputs.find(inv => inv === 'email')}
                     errorMessage={errorMessage}
                     autoCapitalize='none'
@@ -144,8 +146,8 @@ const AuthScreen: React.FC = (props: any) => {
                     onChangeText={onChangepassword}
                     color={'#ccc'}
                     label='Senha'
-                    labelColor={colors.primary}
-                    placeholder='Senha'
+                    labelColor={colors.tertiary}
+                    placeholder='Digite sua senha por favor'
                     error={invalidInputs.find(inv => inv === 'senha')}
                     errorMessage={errorMessage}
                     autoCapitalize='words'
@@ -155,7 +157,7 @@ const AuthScreen: React.FC = (props: any) => {
                     ref={null}
                     loading={false}
                 />
-                <ButtonBox style={{ marginBottom: 50 }} title='Login' onPress={loginHandler} color={colors.accent} hide={false} loading={loading} />
+                <ButtonBox style={{}} title='Login' onPress={loginHandler} color={colors.secondary} hide={false} loading={loading} />
             </View>
         </SafeScrollView>
     )

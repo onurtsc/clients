@@ -24,14 +24,13 @@ const ButtonText: React.FC<Props> = (props) => {
                 ...props.style,
             }}
         >
-            {/* {props.iconName && <IconProvider name={props.iconName} size={iconSize} color={iconColor} style={{ marginRight: 10 }} />} */}
             <View style={{
-                borderColor: props.color ? props.color : Colors.accent
+                borderColor: props.color ? props.color : Colors.secondary
             }}
             >
                 <Text style={{
                     ...styles.title,
-                    color: props.color ? props.color : Colors.accent,
+                    color: props.color ? props.color : Colors.secondary,
                 }}
                 >
                     {props.title}

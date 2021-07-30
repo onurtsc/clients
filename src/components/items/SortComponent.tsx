@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, Modal, TouchableOpacity } from 'react-native'
 import Colors from '../../constants/colors'
-import ButtonIcon from './ButtonIcon'
-import CustomIcon from './CustomIcon'
+import ButtonIcon from '../UI/ButtonIcon'
+import CustomIcon from '../UI/CustomIcon'
 
 interface Props {
     onPress: (val: string) => void;
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     buttonText: {
-        color: Colors.sgray,
+        color: Colors.tertiary,
         fontWeight: 'bold',
     }
 })

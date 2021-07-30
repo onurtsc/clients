@@ -10,9 +10,9 @@ import { View } from 'react-native';
 
 const defaultNavOptions = {
     headerStyle: {
-        backgroundColor: Colors.accent
+        backgroundColor: Colors.sgray
     },
-    headerTintColor: Colors.sgray,
+    headerTintColor: Colors.secondary,
     headerBackTitleVisible: false
 };
 
