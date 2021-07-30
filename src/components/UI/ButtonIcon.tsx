@@ -45,6 +45,7 @@ const icons = [
     { name: 'back', link: require('../../assets/icons/back.png') },
     { name: 'logout', link: require('../../assets/icons/logout.png') },
     { name: 'check', link: require('../../assets/icons/check.png') },
+    { name: 'sort', link: require('../../assets/icons/sort.png') },
 
 ]
 

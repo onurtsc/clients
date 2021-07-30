@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import ButtonBox from '../components/UI/ButtonBox'
 import InputBox from '../components/UI/InputBox'
 import SafeScrollView from '../components/UI/SafeScrollView'
@@ -25,6 +24,7 @@ const AuthScreen: React.FC = (props: any) => {
             headerTitle: 'Login',
             headerTitleStyle: {},
             headerTintColor: colors.primary,
+            headerLeft: null,
             headerStyle: {
                 backgroundColor: colors.backgroundColor,
                 elevation: 0,
@@ -43,8 +43,6 @@ const AuthScreen: React.FC = (props: any) => {
             let emailError = invalidInputs.find(i => i === 'email')
             let passwordError = invalidInputs.find(i => i === 'senha')
             errorText = emailError ? passwordError ? 'Email é inválido. A senha não pode ter menos de 4 caracteres.' : 'Email é inválido' : 'A senha não pode ter menos de 4 caracteres.'
-            // if(emailError) errorText = errorText + 'Email é inválido'
-            // if(passwordError) errorText = errorText + emailError ? 'Email é inválido. Senha é inválida.' : 'Senha é inválida.'
             setToastMessage(errorText)
             setToastVisible(true)
             return
@@ -126,9 +124,9 @@ const AuthScreen: React.FC = (props: any) => {
                     hide={false}
                     value={email}
                     onChangeText={onChangeEmail}
-                    color={Colors.sgray}
+                    color={'#ccc'}
                     label='E-Mail'
-                    labelColor={Colors.secondary}
+                    labelColor={colors.primary}
                     placeholder='E-Mail'
                     error={invalidInputs.find(inv => inv === 'email')}
                     errorMessage={errorMessage}
@@ -137,15 +135,16 @@ const AuthScreen: React.FC = (props: any) => {
                     keyboardType='email-address'
                     maxLength={50}
                     ref={null}
+                    loading={false}
                 />
                 <InputBox
                     style={styles.input}
                     hide={false}
                     value={password}
                     onChangeText={onChangepassword}
-                    color={Colors.sgray}
+                    color={'#ccc'}
                     label='Senha'
-                    labelColor={Colors.secondary}
+                    labelColor={colors.primary}
                     placeholder='Senha'
                     error={invalidInputs.find(inv => inv === 'senha')}
                     errorMessage={errorMessage}
@@ -154,8 +153,9 @@ const AuthScreen: React.FC = (props: any) => {
                     keyboardType='default'
                     maxLength={50}
                     ref={null}
+                    loading={false}
                 />
-                <ButtonBox style={{ marginBottom: 50 }} title='Login' onPress={loginHandler} color={colors.success} hide={false} loading={loading} />
+                <ButtonBox style={{ marginBottom: 50 }} title='Login' onPress={loginHandler} color={colors.accent} hide={false} loading={loading} />
             </View>
         </SafeScrollView>
     )

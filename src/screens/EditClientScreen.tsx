@@ -16,6 +16,7 @@ interface RefObject {
 
 const EditClientScreen: React.FC = (props: any) => {
     const [loading, setLoading] = useState<boolean>(false)
+    const [addressIndicator, setAddressIndicator] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [toastVisible, setToastVisible] = useState<boolean>(false)
     const [toastMessage, setToastMessage] = useState<string>('')
@@ -56,7 +57,7 @@ const EditClientScreen: React.FC = (props: any) => {
             'Atenção',
             'Suas alterações não serão salvas!',
             [
-                { text: 'Volte', onPress: () => props.navigation.goBack(), style: 'destructive' },
+                { text: 'Volte', onPress: () => props.navigation.navigate('ClientsOverview', { success: false }), style: 'destructive' },
                 { text: 'Fique', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
             ],
             { cancelable: true }
@@ -126,7 +127,7 @@ const EditClientScreen: React.FC = (props: any) => {
         setEmail(val.trim())
     }
 
-    const onChangecep = async (val: string) => {
+    const onChangeCep = async (val: string) => {
         let newVal = formatCEP(val)
         setCep(newVal)
         if (newVal.length !== 9) {
@@ -135,7 +136,7 @@ const EditClientScreen: React.FC = (props: any) => {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'CEP'))
         }
         if (newVal.length >= 9) {
-            refNumber.current?.focus()
+            setAddressIndicator(true)
             try {
                 const res = await fetch(`https://viacep.com.br/ws/${val}/json/`)
                 const result = await res.json()
@@ -143,12 +144,16 @@ const EditClientScreen: React.FC = (props: any) => {
                     setToastMessage('Não há informações de endereço relacionadas a este CEP!')
                     setToastType('default')
                     setToastVisible(true)
+                    setAddressIndicator(false)
                     return
                 }
                 setRua(result.logradouro)
                 setBairro(result.bairro)
                 setCidade(result.localidade)
+                refNumber.current?.focus()
+                setAddressIndicator(false)
             } catch (error) {
+                setAddressIndicator(true)
                 setToastMessage('Ocorreu um erro ao obter as informações do endereço.Certifique-se de que você está conectado à Internet.')
                 setToastType('warning')
                 setToastVisible(true)
@@ -266,6 +271,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='default'
                     maxLength={50}
                     ref={null}
+                    loading={false}
                 />
                 <InputBox
                     style={styles.input}
@@ -283,6 +289,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='decimal-pad'
                     maxLength={14}
                     ref={null}
+                    loading={false}
                 />
                 <InputBox
                     style={styles.input}
@@ -300,6 +307,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='email-address'
                     maxLength={50}
                     ref={refEmail}
+                    loading={false}
                 />
             </View>
             <Text style={styles.title}>INFORMAÇÃO DE ENDEREÇO</Text>
@@ -308,7 +316,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     style={styles.input}
                     hide={false}
                     value={cep}
-                    onChangeText={onChangecep}
+                    onChangeText={onChangeCep}
                     color={Colors.sgray}
                     label='CEP'
                     labelColor={Colors.secondary}
@@ -320,6 +328,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='decimal-pad'
                     maxLength={9}
                     ref={null}
+                    loading={addressIndicator}
                 />
                 <InputBox
                     style={styles.input}
@@ -337,6 +346,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='default'
                     maxLength={100}
                     ref={null}
+                    loading={addressIndicator}
                 />
                 <InputBox
                     style={styles.input}
@@ -354,6 +364,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='decimal-pad'
                     maxLength={5}
                     ref={refNumber}
+                    loading={false}
                 />
                 <InputBox
                     style={styles.input}
@@ -371,6 +382,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='default'
                     maxLength={100}
                     ref={null}
+                    loading={addressIndicator}
                 />
                 <InputBox
                     style={styles.input}
@@ -388,6 +400,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     keyboardType='default'
                     maxLength={20}
                     ref={null}
+                    loading={addressIndicator}
                 />
             </View>
             <ButtonBox style={{ marginBottom: 50 }} title='Salvar' onPress={saveClientHandler} color={colors.primary} hide={false} loading={loading} />

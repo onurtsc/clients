@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, TextInput, Dimensions, Platform } from 'react-native'
+import colors from '../../constants/colors'
 import Colors from '../../constants/colors'
 import Client from '../../models/Client'
 import CustomIcon from './CustomIcon'
@@ -21,7 +22,8 @@ const SearchBar: React.FC<Props> = props => {
         try {
             const res = await fetch(`http://localhost:5000/clientes?q=${value}`)
             const customers = await res.json()
-            props.setFixedData(customers)
+            let orderedCustomers = customers.reverse()
+            props.setFixedData(orderedCustomers)
             props.showLoading(false)
         } catch (err) {
             console.log(err)
@@ -46,14 +48,11 @@ const styles = StyleSheet.create({
     searchBar: {
         width: deviceWidth * 0.8,
         height: Platform.OS === 'ios' ? 35 : 40,
-        // backgroundColor: '#F8F8FF',
-        backgroundColor: 'white',
+        backgroundColor: '#FAFAFF',
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'center',
         borderRadius: deviceWidth * 0.4,
-        marginHorizontal: 10,
-        // borderWidth: 0.5,
         borderColor: '#ccc',
         paddingHorizontal: 20,
 

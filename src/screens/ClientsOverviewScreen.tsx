@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, View, Text, Alert, ActivityIndicator } from 'react-native'
+import { useHeaderHeight } from '@react-navigation/stack'
 import PersonItem from '../components/items/PersonItem'
 import ButtonIcon from '../components/UI/ButtonIcon'
 import SafeScrollView from '../components/UI/SafeScrollView'
 import SearchBar from '../components/UI/SearchBar'
+import SortComponent from '../components/UI/SortComponent'
 import Colors from '../constants/colors'
 import Client from '../models/Client'
 
@@ -17,11 +19,12 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     const [searchedItems, setSearchedItems] = useState<Client[]>([])
     const [clients, setClients] = useState<Client[]>([])
     const [hasError, setHasError] = useState<boolean>(false)
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [sortParam, setSortParam] = useState<string>('nome')
 
     const itemsPerPage = 5
-
     const success = props.route.params?.success
+    const headerHeight = useHeaderHeight()
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -40,20 +43,21 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     }, [success])
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', loadClients.bind(this, 1))
+        const unsubscribe = props.navigation.addListener('focus', () => { setSearchedItems([]); setCurrentPage(1); loadClients(1, 'nome') })
         return () => {
             unsubscribe()
         };
-    }, []);
+    }, [success]);
 
-    const loadClients = useCallback(async (pageNumber: number) => {
+    const loadClients = useCallback(async (pageNumber: number, sortBy: string) => {
         setLoading(true)
         setHasError(false)
         try {
-            const res = await fetch("http://localhost:5000/clientes")
+            const res = await fetch(`http://localhost:5000/clientes?_sort=${sortBy}&_order=asc`)
             const customers = await res.json()
-            setClients(customers)
-            setSearchedItems(customers.slice(0, pageNumber * itemsPerPage))
+            let orderedCustomers = customers//.reverse()
+            setClients(orderedCustomers)
+            setSearchedItems(orderedCustomers.slice(0, pageNumber * itemsPerPage))
             setLoading(false)
         } catch (err) {
             setToastType('warning')
@@ -89,7 +93,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
 
     const logoutHandler = () => {
         Alert.alert(
-            'Você quer sair??',
+            'Você quer sair?',
             '',
             [
                 { text: 'Cancelar', style: 'default', onPress: () => { } },
@@ -143,15 +147,18 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
             onScroll={({ nativeEvent }) => {
                 if (isCloseToBottom(nativeEvent) && currentPage * itemsPerPage <= searchedItems.length) {
                     setCurrentPage(currentPage + 1)
-                    loadClients(currentPage + 1)
+                    loadClients(currentPage + 1, sortParam)
                 }
             }}
         >
-            <SearchBar
-                data={clients}
-                setFixedData={(val) => { setSearchedItems(val) }}
-                showLoading={(val) => setSearchLoading(val)}
-            />
+            <View style={styles.filterContainer}>
+                <SearchBar
+                    data={clients}
+                    setFixedData={(val) => { setSearchedItems(val) }}
+                    showLoading={(val) => setSearchLoading(val)}
+                />
+                <SortComponent onPress={(val: string) => { setSortParam(val); setCurrentPage(1); loadClients(1, val) }} headerHeight={headerHeight} />
+            </View>
             {searchLoading && <ActivityIndicator style={{ marginTop: 20 }} size='large' color={Colors.primary} />}
             {!loading && hasError && <Text style={{ textAlign: 'center', marginTop: 20 }}>Ocorreu um erro com o servidor!</Text>}
             {!searchLoading && searchedItems && searchedItems.map((item: any, index: any) => (
@@ -162,6 +169,12 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     )
 }
 
-const style = StyleSheet.create({})
+const styles = StyleSheet.create({
+    filterContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    }
+})
 
 export default ClientsOverviewScreen

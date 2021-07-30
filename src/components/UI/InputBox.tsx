@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { StyleSheet, View, TextInput, Text, Platform } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, View, TextInput, Text, Platform, ActivityIndicator } from 'react-native'
 import Colors from '../../constants/colors'
 
 interface Props {
@@ -17,7 +17,8 @@ interface Props {
     secureTextEntry: boolean;
     keyboardType: any;
     maxLength: number;
-    ref: any
+    ref: any;
+    loading: boolean;
 };
 
 const InputBox: React.FC<Props> = React.forwardRef<TextInput, Props>((props, ref) => {
@@ -44,7 +45,7 @@ const InputBox: React.FC<Props> = React.forwardRef<TextInput, Props>((props, ref
                 >{props.label}
                 </Text>
             }
-            <View style={{...styles.inputContainer}} >
+            <View style={{ ...styles.inputContainer }} >
                 <TextInput
                     style={{
                         ...styles.input,
@@ -60,11 +61,12 @@ const InputBox: React.FC<Props> = React.forwardRef<TextInput, Props>((props, ref
                     value={props.value}
                     autoCorrect={false}
                     autoCapitalize={props.autoCapitalize}
-                    secureTextEntry = {props.secureTextEntry}
+                    secureTextEntry={props.secureTextEntry}
                     keyboardType={props.keyboardType}
                     maxLength={props.maxLength}
                     ref={ref}
                 />
+                {props.loading && <ActivityIndicator style={{ position: 'absolute', right: 10, top: 5 }} size='small' color={labelColor} />}
             </View>
         </View>
     )
