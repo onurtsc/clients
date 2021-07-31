@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, View, Text, Alert, ActivityIndicator } from 'react-native'
-import { useHeaderHeight } from '@react-navigation/stack'
+import { StyleSheet, View, Text, Alert, ActivityIndicator, Button } from 'react-native'
 import PersonItem from '../components/items/PersonItem'
 import ButtonIcon from '../components/UI/ButtonIcon'
 import SafeScrollView from '../components/UI/SafeScrollView'
@@ -10,8 +9,23 @@ import SortComponent from '../components/items/SortComponent'
 import Colors from '../constants/colors'
 import Client from '../models/Client'
 import Logo from '../components/items/Logo'
+import ButtonBox from '../components/UI/ButtonBox'
+import colors from '../constants/colors'
 
-const ClientsOverviewScreen: React.FC = (props: any) => {
+interface Props {
+    navigation: {
+        navigate: (param: string, object: { person: object }) => void;
+        setOptions: (params: object) => void;
+        addListener: (param: string, func: () => void) => void;
+    };
+    route: {
+        params: {
+            success: boolean
+        }
+    }
+}
+
+const ClientsOverviewScreen: React.FC<Props> = (props: any) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [searchLoading, setSearchLoading] = useState<boolean>(false)
     const [toastVisible, setToastVisible] = useState<boolean>(false)
@@ -22,14 +36,14 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
     const [hasError, setHasError] = useState<boolean>(false)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [sortParam, setSortParam] = useState<string>('nome')
+    const [bottomText, setBottomText] = useState<string>('')
 
     const itemsPerPage = 5
     const success = props.route.params?.success
-    const headerHeight = useHeaderHeight()
 
     useEffect(() => {
         props.navigation?.setOptions({
-            headerTitle: () => <Logo size={16}/>,
+            headerTitle: () => <Logo size={16} />,
             headerLeft: () => <ButtonIcon style={{}} name='logout' onPress={logoutHandler} loading={false} />,
             headerRight: () => <ButtonIcon style={{}} name='add' onPress={() => { props.navigation.navigate('EditClient', { person: null }) }} loading={false} />,
         })
@@ -56,9 +70,13 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
         try {
             const res = await fetch(`http://localhost:5000/clientes?_sort=${sortBy}&_order=asc`)
             const customers = await res.json()
-            let orderedCustomers = customers//.reverse()
+            let orderedCustomers = customers
             setClients(orderedCustomers)
-            setSearchedItems(orderedCustomers.slice(0, pageNumber * itemsPerPage))
+            if (orderedCustomers?.length > itemsPerPage) {
+                setSearchedItems(orderedCustomers.slice(0, pageNumber * itemsPerPage))
+            } else {
+                setSearchedItems(orderedCustomers)
+            }
             setLoading(false)
         } catch (err) {
             setToastType('warning')
@@ -117,7 +135,7 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
             'Aviso!',
             'Tem certeza de que deseja excluir este cliente??', [{
                 text: 'Cancelar',
-                onPress: () => {},
+                onPress: () => { },
                 style: 'cancel'
             }, {
                 text: 'Excluir',
@@ -146,9 +164,12 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
             contentContainerStyle={{ paddingBottom: 50 }}
             toastOptions={toastOptions}
             onScroll={({ nativeEvent }) => {
-                if (isCloseToBottom(nativeEvent) && currentPage * itemsPerPage <= searchedItems.length) {
+                if (isCloseToBottom(nativeEvent) && currentPage * itemsPerPage <= clients?.length) {
                     setCurrentPage(currentPage + 1)
                     loadClients(currentPage + 1, sortParam)
+                }
+                if (isCloseToBottom(nativeEvent) && currentPage * itemsPerPage > clients?.length && !loading) {
+                    setBottomText('Fim da lista')
                 }
             }}
         >
@@ -158,14 +179,16 @@ const ClientsOverviewScreen: React.FC = (props: any) => {
                     setFixedData={(val) => { setSearchedItems(val) }}
                     showLoading={(val) => setSearchLoading(val)}
                 />
-                <SortComponent onPress={(val: string) => { setSortParam(val); setCurrentPage(1); loadClients(1, val) }} headerHeight={headerHeight} />
+                <SortComponent onPress={(val: string) => { setSortParam(val); setCurrentPage(1); loadClients(1, val) }} />
             </View>
             {searchLoading && <ActivityIndicator style={{ marginTop: 20 }} size='large' color={Colors.primary} />}
             {!loading && hasError && <Text style={{ textAlign: 'center', marginTop: 20 }}>Ocorreu um erro com o servidor!</Text>}
-            {!searchLoading && searchedItems && searchedItems.map((item: any, index: any) => (
+            {!searchLoading && searchedItems?.length > 0 && searchedItems?.map((item: any, index: any) => (
                 <PersonItem key={index} person={item} onPressEdit={() => props.navigation.navigate('EditClient', { person: item })} onPressDelete={showDeleteAlert.bind(this, item.id)} />
             ))}
             {loading && <ActivityIndicator style={{ marginTop: 20 }} size='large' color={Colors.primary} />}
+            {/* <ButtonBox style={{}} testID='fetch.button' title='Salvar' onPress={loadClients.bind(this, 1, 'nome')} color={'white'} hide={false} loading={loading} /> */}
+            <Text style={styles.bottomText} >{bottomText}</Text>
         </SafeScrollView>
     )
 }
@@ -177,7 +200,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: -10,
         marginBottom: 30,
-    }
+    },
+    bottomText: {
+        color: colors.sgray,
+        textAlign: 'center',
+        marginTop: 20,
+        fontStyle: 'italic'
+    },
 })
 
 export default ClientsOverviewScreen

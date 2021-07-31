@@ -85,7 +85,7 @@
         "rua": "Rua Espírito Santo",
         "numero": "433",
         "bairro": "Centro",
-        "cidade": "Garanhuns"
+        "cidade": "Maraba"
       }
     },
     {
@@ -229,6 +229,19 @@
         "numero": "555",
         "bairro": "Taguatinga Sul (Taguatinga)",
         "cidade": "Brasília"
+      }
+    },
+    {
+      "id": 19,
+      "nome": "Alberto Medidas",
+      "cpf": "456.636.636-66",
+      "email": "medidas.alberto.23@windowslive.com.br",
+      "endereco": {
+        "cep": "22795-595",
+        "rua": "Praça Doutor Eurico de Alencastro Massot",
+        "numero": "983",
+        "bairro": "Recreio dos Bandeirantes",
+        "cidade": "Rio de Janeiro"
       }
     }
   ]

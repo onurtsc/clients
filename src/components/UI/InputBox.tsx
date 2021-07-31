@@ -19,6 +19,7 @@ interface Props {
     maxLength: number;
     ref: any;
     loading: boolean;
+    testID: string;
 };
 
 const InputBox: React.FC<Props> = React.forwardRef<TextInput, Props>((props, ref) => {
@@ -61,10 +62,12 @@ const InputBox: React.FC<Props> = React.forwardRef<TextInput, Props>((props, ref
                     value={props.value}
                     autoCorrect={false}
                     autoCapitalize={props.autoCapitalize}
+                    multiline={false}
                     secureTextEntry={props.secureTextEntry}
                     keyboardType={props.keyboardType}
                     maxLength={props.maxLength}
                     ref={ref}
+                    testID={props.testID}
                 />
                 {props.loading && <ActivityIndicator style={{ position: 'absolute', right: 10, top: 5 }} size='small' color={labelColor} />}
             </View>

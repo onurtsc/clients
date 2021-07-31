@@ -5,7 +5,7 @@ export default {
     cream: '#f5f5dc',
     ivory: '#fffff0',
     success: '#5ac18e',
-    warning: '#ffa500',
+    warning: '#FFC107',
     danger: '#ff4040',
     sgray: 'rgb(56,60,73)',
     gray: '#ccc',

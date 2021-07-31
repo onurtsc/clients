@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`prooves that post request works successfully when all inputs are valid 1`] = `
+Array [
+  Array [
+    "https://viacep.com.br/ws/33222-000/json/",
+  ],
+  Array [
+    "http://localhost:5000/clientes",
+    Object {
+      "body": "{\\"id\\":0,\\"nome\\":\\"Jose Martinez\\",\\"cpf\\":\\"123.123.123-00\\",\\"email\\":\\"user@address.com\\",\\"endereco\\":{\\"cep\\":\\"33222-000\\",\\"rua\\":\\"Example Street\\",\\"numero\\":\\"4324\\",\\"bairro\\":\\"Centro\\",\\"cidade\\":\\"Goiana\\"}}",
+      "headers": Object {
+        "Content-Type": "application/json",
+      },
+      "method": "POST",
+    },
+  ],
+  Array [
+    "https://viacep.com.br/ws/65444-322/json/",
+  ],
+  Array [
+    "http://localhost:5000/clientes",
+    Object {
+      "body": "{\\"id\\":0,\\"nome\\":\\"Jose Martinez\\",\\"cpf\\":\\"123.123.123-00\\",\\"email\\":\\"user@address.com\\",\\"endereco\\":{\\"cep\\":\\"65444-322\\",\\"rua\\":\\"Example Street\\",\\"numero\\":\\"4324\\",\\"bairro\\":\\"Centro\\",\\"cidade\\":\\"Goiana\\"}}",
+      "headers": Object {
+        "Content-Type": "application/json",
+      },
+      "method": "POST",
+    },
+  ],
+]
+`;

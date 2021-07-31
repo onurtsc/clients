@@ -11,6 +11,7 @@ export type Props = {
     style: object;
     onPress: () => void;
     title: string;
+    testID: string;
 };
 
 const ButtonBox: React.FC<Props> = props => {
@@ -33,6 +34,7 @@ const ButtonBox: React.FC<Props> = props => {
         <TouchableOpacity
             onPress={props.onPress}
             style={{ ...styles.container, ...props.style, backgroundColor: props.color ? props.color : Colors.secondary, }}
+            testID={props.testID}
         >
             <Text
                 style={{

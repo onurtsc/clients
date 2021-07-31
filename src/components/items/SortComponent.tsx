@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { StyleSheet, View, Text, Modal, TouchableOpacity } from 'react-native'
 import Colors from '../../constants/colors'
 import ButtonIcon from '../UI/ButtonIcon'
@@ -6,18 +6,31 @@ import CustomIcon from '../UI/CustomIcon'
 
 interface Props {
     onPress: (val: string) => void;
-    headerHeight: number;
 };
 
 const SortComponent: React.FC<Props> = props => {
     const [modalVisible, setModalVisible] = useState(false)
+    const [boxHeight, setBoxHeight] = useState<number>(0)
+
+    let componentRef: any = useRef(null)
 
     return (
         <View>
-            <ButtonIcon style={{ paddingRight: 0 }} name='sort' onPress={() => { setModalVisible(true) }} loading={false} />
+            <View
+                ref={(ref) => { componentRef = ref }}
+                onLayout={({ nativeEvent }) => {
+                    if (componentRef) {
+                        componentRef.measure((x: number, y: number, width: number, height: number, pageX: number, pageY: number) => {
+                            console.log(x, y, width, height, pageX, pageY);
+                            setBoxHeight(pageY)
+                        })
+                    }
+                }}>
+                <ButtonIcon style={{ paddingRight: 0 }} name='sort' onPress={() => { setModalVisible(true) }} loading={false} />
+            </View>
             <Modal visible={modalVisible} animationType='fade' transparent={true} >
                 <TouchableOpacity onPress={() => { setModalVisible(false) }} activeOpacity={0} style={styles.itemsContainer} >
-                    <View style={{ ...styles.container, top: props.headerHeight * 2 }} >
+                    <View style={{ ...styles.container, top: boxHeight }} >
                         <TouchableOpacity style={styles.button} onPress={() => { setModalVisible(false), props.onPress('nome') }} >
                             <Text style={styles.buttonText} >Nome</Text>
                             <CustomIcon name='id' />

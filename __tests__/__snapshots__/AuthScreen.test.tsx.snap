@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`prooves that the user is successfully autenticated 1`] = `
+Array [
+  Array [
+    "http://localhost:5000/usuarios?q=exemplo@exemplo.com",
+  ],
+  Array [
+    "http://localhost:5000/usuarios?q=test@test.com",
+  ],
+]
+`;

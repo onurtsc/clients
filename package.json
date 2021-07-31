@@ -15,6 +15,7 @@
     "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "jest-fetch-mock": "^3.0.3",
     "react": "17.0.1",
     "react-native": "0.64.1",
     "react-native-gesture-handler": "^1.10.3",
@@ -50,6 +51,15 @@
       "jsx",
       "json",
       "node"
+    ],
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
+      "./setupJest.js"
+    ],"transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|my-project|react-native-button|nodejs-mobile-react-native|react-navigation|react-native-iphone-x-helper|native-base|@react-navigation))/"
     ]
   }
 }

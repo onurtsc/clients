@@ -13,7 +13,14 @@ interface RefObject {
     focus: () => void
 }
 
-const EditClientScreen: React.FC = (props: any) => {
+interface Props {
+    navigation: {
+        navigate: (param: string) => void
+        setOptions: (params: object) => void
+    };
+}
+
+const EditClientScreen: React.FC<Props> = (props: any) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [addressIndicator, setAddressIndicator] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -33,7 +40,7 @@ const EditClientScreen: React.FC = (props: any) => {
 
     const [invalidInputs, setInvalidInputs] = useState<any[]>(['nome', 'CPF', 'email', 'CEP', 'rua', 'numero', 'bairro', 'cidade'])
 
-    const { person } = props.route.params
+    const person= props.route?.params?.person
 
     const refEmail = useRef<RefObject>(null)
     const refNumber = useRef<RefObject>(null)
@@ -57,7 +64,7 @@ const EditClientScreen: React.FC = (props: any) => {
             'Suas alterações não serão salvas!',
             [
                 { text: 'Volte', onPress: () => props.navigation.navigate('ClientsOverview', { success: false }), style: 'destructive' },
-                { text: 'Fique', onPress: () => {}, style: 'cancel' }
+                { text: 'Fique', onPress: () => { }, style: 'cancel' }
             ],
             { cancelable: true }
         );
@@ -95,7 +102,9 @@ const EditClientScreen: React.FC = (props: any) => {
     const onChangeName = (val: string) => {
         setNome(val)
         if (val.length < 4) {
-            setInvalidInputs([...invalidInputs, 'nome'])
+            if (invalidInputs?.filter(inv => inv === 'nome')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'nome'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'nome'))
         }
@@ -105,7 +114,9 @@ const EditClientScreen: React.FC = (props: any) => {
         let newVal = formatCPF(val)
         setCpf(newVal)
         if (newVal.length !== 14) {
-            setInvalidInputs([...invalidInputs, 'CPF'])
+            if (invalidInputs?.filter(inv => inv === 'CPF')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'CPF'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'CPF'))
         }
@@ -116,10 +127,10 @@ const EditClientScreen: React.FC = (props: any) => {
 
     const onChangeEmail = (val: string) => {
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        let errs = invalidInputs
         if (!emailRegex.test(val.toLowerCase())) {
-            errs.push('email')
-            setInvalidInputs([...invalidInputs, 'email'])
+            if (invalidInputs?.filter(inv => inv === 'email')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'email'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'email'))
         }
@@ -130,7 +141,9 @@ const EditClientScreen: React.FC = (props: any) => {
         let newVal = formatCEP(val)
         setCep(newVal)
         if (newVal.length !== 9) {
-            setInvalidInputs([...invalidInputs, 'CEP'])
+            if (invalidInputs?.filter(inv => inv === 'CEP')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'CEP'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'CEP'))
         }
@@ -154,7 +167,7 @@ const EditClientScreen: React.FC = (props: any) => {
             } catch (error) {
                 setAddressIndicator(true)
                 setToastMessage('Ocorreu um erro ao obter as informações do endereço.Certifique-se de que você está conectado à Internet.')
-                setToastType('warning')
+                setToastType('danger')
                 setToastVisible(true)
             }
         }
@@ -163,7 +176,9 @@ const EditClientScreen: React.FC = (props: any) => {
     const onChangerua = (val: string) => {
         setRua(val)
         if (val.length < 4) {
-            setInvalidInputs([...invalidInputs, 'rua'])
+            if (invalidInputs?.filter(inv => inv === 'rua')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'rua'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'rua'))
         }
@@ -173,7 +188,9 @@ const EditClientScreen: React.FC = (props: any) => {
         let newVal = formatNumero(val)
         setNumero(newVal)
         if (val.length < 1) {
-            setInvalidInputs([...invalidInputs, 'numero'])
+            if (invalidInputs?.filter(inv => inv === 'numero')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'numero'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'numero'))
         }
@@ -182,7 +199,9 @@ const EditClientScreen: React.FC = (props: any) => {
     const onChangeBairro = (val: string) => {
         setBairro(val)
         if (val.length < 4) {
-            setInvalidInputs([...invalidInputs, 'bairro'])
+            if (invalidInputs?.filter(inv => inv === 'bairro')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'bairro'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'bairro'))
         }
@@ -191,7 +210,9 @@ const EditClientScreen: React.FC = (props: any) => {
     const onChangecidade = (val: string) => {
         setCidade(val)
         if (val.length < 4) {
-            setInvalidInputs([...invalidInputs, 'cidade'])
+            if (invalidInputs?.filter(inv => inv === 'cidade')?.length < 1) {
+                setInvalidInputs([...invalidInputs, 'cidade'])
+            }
         } else {
             setInvalidInputs(invalidInputs.filter(inv => inv !== 'cidade'))
         }
@@ -213,8 +234,8 @@ const EditClientScreen: React.FC = (props: any) => {
         }
         let hasError = invalidInputs.length === 0 ? false : true
         if (hasError) {
-            setToastMessage('Por favor, corrija os campos que contêm erros!')
-            setToastType('warning')
+            setToastMessage(`Por favor corrija os erros abaixo: \n\n${invalidInputs?.toString()?.replace(/,/g, ', ')}`)
+            setToastType('danger')
             setToastVisible(true)
             return
         }
@@ -231,7 +252,7 @@ const EditClientScreen: React.FC = (props: any) => {
             props.navigation.navigate('ClientsOverview', { success: true })
         } catch (err) {
             setToastMessage('Ocorreu um erro com o servidor!')
-            setToastType('warning')
+            setToastType('danger')
             setToastVisible(true)
             setLoading(false)
         }
@@ -250,7 +271,7 @@ const EditClientScreen: React.FC = (props: any) => {
             style={null}
             contentContainerStyle={{}}
             toastOptions={toastOptions}
-            onScroll={() => {}}
+            onScroll={() => { }}
         >
             <Text style={styles.title}>INFORMAÇÃO PESSOAL</Text>
             <View style={styles.inputContainer} >
@@ -271,6 +292,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={50}
                     ref={null}
                     loading={false}
+                    testID='nome.input'
                 />
                 <InputBox
                     style={styles.input}
@@ -289,6 +311,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={14}
                     ref={null}
                     loading={false}
+                    testID='cpf.input'
                 />
                 <InputBox
                     style={styles.input}
@@ -307,6 +330,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={50}
                     ref={refEmail}
                     loading={false}
+                    testID='email.input'
                 />
             </View>
             <Text style={styles.title}>INFORMAÇÃO DE ENDEREÇO</Text>
@@ -328,6 +352,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={9}
                     ref={null}
                     loading={addressIndicator}
+                    testID='cep.input'
                 />
                 <InputBox
                     style={styles.input}
@@ -346,6 +371,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={100}
                     ref={null}
                     loading={addressIndicator}
+                    testID='rua.input'
                 />
                 <InputBox
                     style={styles.input}
@@ -364,6 +390,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={5}
                     ref={refNumber}
                     loading={false}
+                    testID='numero.input'
                 />
                 <InputBox
                     style={styles.input}
@@ -382,6 +409,7 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={100}
                     ref={null}
                     loading={addressIndicator}
+                    testID='bairro.input'
                 />
                 <InputBox
                     style={styles.input}
@@ -400,9 +428,11 @@ const EditClientScreen: React.FC = (props: any) => {
                     maxLength={20}
                     ref={null}
                     loading={addressIndicator}
+                    testID='cidade.input'
                 />
             </View>
-            <ButtonBox style={{ marginBottom: 50 }} title='Salvar' onPress={saveClientHandler} color={colors.primary} hide={false} loading={loading} />
+            <Text testID='errors.text' style={styles.errorText} >{invalidInputs?.toString()?.replace(/,/g, ', ')}</Text>
+            <ButtonBox style={{ marginBottom: 50 }} testID='save.button' title='Salvar' onPress={saveClientHandler} color={colors.primary} hide={false} loading={loading} />
         </SafeScrollView>
     )
 }
@@ -437,6 +467,10 @@ const styles = StyleSheet.create({
     },
     input: {
         marginBottom: 20,
+    },
+    errorText: {
+        color: 'transparent',
+        textAlign: 'center'
     },
 })
 

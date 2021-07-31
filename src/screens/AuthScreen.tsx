@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import ButtonBox from '../components/UI/ButtonBox'
 import InputBox from '../components/UI/InputBox'
@@ -8,7 +8,14 @@ import User from '../models/User'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Logo from '../components/items/Logo'
 
-const AuthScreen: React.FC = (props: any) => {
+interface Props {
+    navigation: {
+        navigate: (param: string) => void
+        setOptions: (params: object) => void
+    };
+}
+
+const AuthScreen: React.FC<Props> = (props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [toastVisible, setToastVisible] = useState<boolean>(false)
@@ -43,7 +50,7 @@ const AuthScreen: React.FC = (props: any) => {
             let errorText: string = ''
             let emailError = invalidInputs.find(i => i === 'email')
             let passwordError = invalidInputs.find(i => i === 'senha')
-            errorText = emailError ? passwordError ? 'Email é inválido. A senha não pode ter menos de 4 caracteres.' : 'Email é inválido' : 'A senha não pode ter menos de 4 caracteres.'
+            errorText = emailError ? passwordError ? 'Email é inválido. A senha não pode ter menos de 4 caracteres.' : 'Email é inválido.' : 'A senha não pode ter menos de 4 caracteres.'
             setToastMessage(errorText)
             setToastVisible(true)
             return
@@ -114,10 +121,10 @@ const AuthScreen: React.FC = (props: any) => {
 
     return (
         <SafeScrollView
-            style={{ justifyContent: 'space-around' }}
+            style={styles.screen}
             contentContainerStyle={{ flex: 1 }}
             toastOptions={toastOptions}
-            onScroll={() => {}}
+            onScroll={() => { }}
         >
             <Logo size={60} />
             <View style={styles.container} >
@@ -138,6 +145,7 @@ const AuthScreen: React.FC = (props: any) => {
                     maxLength={50}
                     ref={null}
                     loading={false}
+                    testID='email.input'
                 />
                 <InputBox
                     style={styles.input}
@@ -147,17 +155,18 @@ const AuthScreen: React.FC = (props: any) => {
                     color={'#ccc'}
                     label='Senha'
                     labelColor={colors.tertiary}
-                    placeholder='Digite sua senha por favor'
+                    placeholder='****'
                     error={invalidInputs.find(inv => inv === 'senha')}
                     errorMessage={errorMessage}
-                    autoCapitalize='words'
+                    autoCapitalize='none'
                     secureTextEntry={true}
                     keyboardType='default'
                     maxLength={50}
                     ref={null}
                     loading={false}
+                    testID='password.input'
                 />
-                <ButtonBox style={{}} title='Login' onPress={loginHandler} color={colors.secondary} hide={false} loading={loading} />
+                <ButtonBox style={{}} title='Login' testID='login.button' onPress={loginHandler} color={colors.secondary} hide={false} loading={loading} />
             </View>
         </SafeScrollView>
     )
@@ -165,8 +174,7 @@ const AuthScreen: React.FC = (props: any) => {
 
 const styles = StyleSheet.create({
     screen: {
-        marginVertical: 20,
-        marginHorizontal: 20,
+        justifyContent: 'space-around',
     },
     container: {
         width: '100%',
