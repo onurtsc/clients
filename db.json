@@ -243,6 +243,45 @@
         "bairro": "Recreio dos Bandeirantes",
         "cidade": "Rio de Janeiro"
       }
+    },
+    {
+      "id": 20,
+      "nome": "Miranda Johnson",
+      "cpf": "543.998.732-23",
+      "email": "johnson.miranda@kme.org.br",
+      "endereco": {
+        "cep": "72804-060",
+        "rua": "Rua Gilberto de Amado",
+        "numero": "433",
+        "bairro": "Parque Estrela Dalva I",
+        "cidade": "Luziânia"
+      }
+    },
+    {
+      "id": 21,
+      "nome": "Jenny Martinez",
+      "cpf": "987.356.232-23",
+      "email": "mart.jenny@gmail.com",
+      "endereco": {
+        "cep": "72803-070",
+        "rua": "Rua Mato Grosso",
+        "numero": "098",
+        "bairro": "Santa Luzia",
+        "cidade": "Luziânia"
+      }
+    },
+    {
+      "id": 22,
+      "nome": "Igor Marcela",
+      "cpf": "492.833.112-11",
+      "email": "igor_mar@yandex.com",
+      "endereco": {
+        "cep": "18682-760",
+        "rua": "Rua Guaianazes",
+        "numero": "433",
+        "bairro": "Jardim Monte Azul",
+        "cidade": "Lençóis Paulista"
+      }
     }
   ]
 }

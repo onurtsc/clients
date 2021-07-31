@@ -9,7 +9,6 @@ import SortComponent from '../components/items/SortComponent'
 import Colors from '../constants/colors'
 import Client from '../models/Client'
 import Logo from '../components/items/Logo'
-import ButtonBox from '../components/UI/ButtonBox'
 import colors from '../constants/colors'
 
 interface Props {
@@ -50,6 +49,7 @@ const ClientsOverviewScreen: React.FC<Props> = (props: any) => {
     }, [])
 
     useEffect(() => {
+        setBottomText('')
         if (success) {
             setToastType('success')
             setToastMessage('O cliente foi criado com sucesso!')
@@ -187,8 +187,7 @@ const ClientsOverviewScreen: React.FC<Props> = (props: any) => {
                 <PersonItem key={index} person={item} onPressEdit={() => props.navigation.navigate('EditClient', { person: item })} onPressDelete={showDeleteAlert.bind(this, item.id)} />
             ))}
             {loading && <ActivityIndicator style={{ marginTop: 20 }} size='large' color={Colors.primary} />}
-            {/* <ButtonBox style={{}} testID='fetch.button' title='Salvar' onPress={loadClients.bind(this, 1, 'nome')} color={'white'} hide={false} loading={loading} /> */}
-            <Text style={styles.bottomText} >{bottomText}</Text>
+            {!loading && <Text style={styles.bottomText} >{bottomText}</Text>}
         </SafeScrollView>
     )
 }
